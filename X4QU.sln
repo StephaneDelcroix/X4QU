@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X4QU.Sample", "X4QU.Sample\X4QU.Sample.csproj", "{919C4520-EA4E-466E-ADFC-1C7B536442D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X4QU", "X4QU\X4QU.csproj", "{542C1F66-43C3-4D44-A82E-9C4B656DE335}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Release|iPhone.Build.0 = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Debug|iPhone.Build.0 = Debug|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Release|iPhone.ActiveCfg = Release|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Release|iPhone.Build.0 = Release|iPhone
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = X4QU.Sample\X4QU.Sample.csproj
+	EndGlobalSection
+EndGlobal

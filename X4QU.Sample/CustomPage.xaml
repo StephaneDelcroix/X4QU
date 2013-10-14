@@ -1,0 +1,11 @@
+<ContentPage 
+    xmlns="http://xamarin.com/quickui"
+	xmlns:x="http://dev/null"
+	x:Class="X4QU.Sample.CustomPage">
+  <ContentPage.Content>
+	<StackLayout Id="Stack">
+		<Label Text="Hello" Id="Label0"/>
+		<Label Text="Xaml" Id="Label1"/>
+	</StackLayout>
+  </ContentPage.Content>
+</ContentPage>
