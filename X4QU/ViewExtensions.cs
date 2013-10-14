@@ -11,6 +11,7 @@ using Xamarin.QuickUI;
 using System.Reflection;
 using System.IO;
 using System.Xml;
+using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -29,19 +30,20 @@ namespace X4QU
 			return (T)view.FindById (id);
 		}
 
-		//FIXME: this search should probably be implemented level by level, instead of depth first
-		//Check moonlight FindByName implementation, just in case 
 		static View FindById (this BaseLayout view, string id)
 		{
-			foreach (var child in view) {
-				if (child.Id == id)
-					return child;
-				var layoutChild = child as BaseLayout;
-				if (layoutChild == null)
-					continue;
-				var found = FindById (layoutChild, id);
-				if (found != null)
-					return found;
+			IList<View> level0 = view.ToList ();
+			while (level0.Count > 0) {
+				var level1 = new List<View> ();
+				foreach (var child in level0) {
+					if (child.Id == id)
+						return child;
+
+					var layoutChild = child as BaseLayout;
+					if (layoutChild != null)
+						level1.AddRange (layoutChild);
+				}
+				level0 = level1;
 			}
 			return null;
 		}
