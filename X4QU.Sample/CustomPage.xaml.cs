@@ -17,6 +17,11 @@ namespace X4QU.Sample
 		public CustomPage ()
 		{
 			InitializeComponent ();
+
+			//Have you noticed that Binding to anonymous classes works without declaring any InternalsVisibleTo (unlike SL) ?
+			BindingContext = new {
+				LabelBinding = "Binding works",
+			};
 		}
 	}
 }

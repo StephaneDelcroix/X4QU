@@ -10,6 +10,8 @@
 		    Xaml
 		  </Label.Text>
 		</Label>
+		<Label Text="{Binding Path=LabelBinding}"/>
+		<Label Text="{Binding LabelBinding}"/>
 	</StackLayout>
   </ContentPage.Content>
 </ContentPage>

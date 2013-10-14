@@ -13,6 +13,7 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace X4QU
 {
@@ -136,7 +137,14 @@ namespace X4QU
 
 		static void SetPropertyValue (this object @object, Type elementType, string propertyName, object @value)
 		{
-			//First, try to see if it's a BindableProperty
+			//If it's a binding string: special handling
+			var valueString = @value as string;
+			if (valueString != null && valueString.Trim ().StartsWith ("{", StringComparison.InvariantCulture)) {
+				@object.SetBinding (elementType, propertyName, valueString);
+				return;
+			}
+
+			//try to see if it's a BindableProperty
 			var bindableFieldInfo = 
 				elementType.GetField (propertyName + "Property", 
 					BindingFlags.Static | 
@@ -157,6 +165,47 @@ namespace X4QU
 				return;
 			}
 			throw new Exception (String.Format ("Xaml Parse issue. No Property of name {0} found", propertyName));
+		}
+
+		static void SetBinding (this object @object, Type elementType, string propertyName, string bindingString)
+		{
+			var bindableFieldInfo = 
+				elementType.GetField (propertyName + "Property", 
+					BindingFlags.Static | 
+					BindingFlags.Public | 
+					BindingFlags.FlattenHierarchy);
+			if (bindableFieldInfo == null || !elementType.IsSubclassOf (typeof(BindableObject))) {
+				Debug.Fail ("Invalid Binding");
+				return;
+			}
+			var property = bindableFieldInfo.GetValue (null) as BindableProperty;
+
+			if (!bindingString.StartsWith ("{", StringComparison.InvariantCulture) 
+				&& !bindingString.EndsWith ("}", StringComparison.InvariantCulture)) {
+				Debug.Fail ("Invalid Binding");
+				return;			
+			}
+
+			bindingString = bindingString.Substring (1, bindingString.Length - 2);
+			//get the path
+			string path = null;
+			if (string.IsNullOrEmpty(path)) {
+				var regex = new Regex (@"Binding +Path *= *(\w+\b)");
+				var match = regex.Match (bindingString);
+				if (match != null) {
+					path = match.Groups [1].Value;
+				}
+			}
+			if (string.IsNullOrEmpty(path)) { 
+				var regex = new Regex (@"Binding +(\w+\b)");
+				var match = regex.Match (bindingString);
+				if (match != null)
+					path = match.Groups [1].Value;
+			}
+
+			var binding = new Binding (path);
+			((BindableObject)@object).SetBinding (property, binding);
+
 		}
 
 		static object ReadElement (this object @object, Type elementType, XmlReader reader)
