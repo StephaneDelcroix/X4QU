@@ -65,12 +65,12 @@ namespace X4QU
 
 		static void HydrateElement (this object @object, XmlReader reader)
 		{
-			Debug.WriteLine ("HydrateElement {0} {1}", reader.Name, "-");
+			Debug.WriteLine (string.Format ("HydrateElement {0}", reader.Name));
 			Debug.Assert (reader.NodeType == XmlNodeType.Element);
+
 			//only support quickui elements for now, without namespace
 			var elementType = quickUiAssembly.GetType (quickUiNamespace + reader.Name);
 			Debug.Assert (@object.GetType () == elementType || @object.GetType ().IsSubclassOf (elementType));
-
 			var elementName = reader.Name;
 			var isEmpty = reader.IsEmptyElement;
 
@@ -176,6 +176,8 @@ namespace X4QU
 				case XmlNodeType.EndElement:
 					Debug.Assert (reader.Name == nodeName);
 					return element;
+				case XmlNodeType.Text:
+					element = reader.Value.Trim();
 				case XmlNodeType.Whitespace:
 					break;
 				default:

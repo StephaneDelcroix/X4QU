@@ -5,7 +5,11 @@
   <ContentPage.Content>
 	<StackLayout Id="Stack">
 		<Label Text="Hello" Id="Label0"/>
-		<Label Text="Xaml" Id="Label1"/>
+		<Label Id="Label1">
+		  <Label.Text>
+		    Xaml
+		  </Label.Text>
+		</Label>
 	</StackLayout>
   </ContentPage.Content>
 </ContentPage>
