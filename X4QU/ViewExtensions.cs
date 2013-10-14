@@ -7,7 +7,6 @@
 // Copyright (c) 2013 Mobile Inception
 //
 using System;
-using Xamarin.QuickUI;
 using System.Reflection;
 using System.IO;
 using System.Xml;
@@ -15,6 +14,8 @@ using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
+using Xamarin.QuickUI;
 
 namespace X4QU
 {

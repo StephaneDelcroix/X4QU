@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X4QU.Sample", "X4QU.Sample\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X4QU", "X4QU\X4QU.csproj", "{542C1F66-43C3-4D44-A82E-9C4B656DE335}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X4QU.xamlg", "X4QU.xamlg\X4QU.xamlg.csproj", "{044F1422-8DAC-44B6-83A0-8FD7027A194B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -15,6 +17,18 @@ Global
 		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Ad-Hoc|iPhone.ActiveCfg = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Ad-Hoc|iPhone.Build.0 = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.AppStore|iPhone.ActiveCfg = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.AppStore|iPhone.Build.0 = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Debug|iPhone.ActiveCfg = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Debug|iPhone.Build.0 = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Release|iPhone.ActiveCfg = Release|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Release|iPhone.Build.0 = Release|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{044F1422-8DAC-44B6-83A0-8FD7027A194B}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
 		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
 		{542C1F66-43C3-4D44-A82E-9C4B656DE335}.AppStore|iPhone.ActiveCfg = Release|Any CPU
@@ -41,6 +55,6 @@ Global
 		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = X4QU.Sample\X4QU.Sample.csproj
+		StartupItem = X4QU.xamlg\X4QU.xamlg.csproj
 	EndGlobalSection
 EndGlobal
