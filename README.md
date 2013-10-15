@@ -84,3 +84,8 @@ TODO
  - CellTemplates
  - Resources and `{StaticResource}` syntax
  - Properties with type different than string (enum, int, ...)
+
+Features requests in Xamarin.QuickUI
+------------------------------------
+ - TypeConverterAttribute
+ - ContentPropertyAttribute
