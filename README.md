@@ -31,6 +31,8 @@ Say we want to create a `CustomPage` inheriting from `ContentPage`
        c. you **have** to use <ContentPage.Content> to set the Content property of the page, as there's no ContentPropertyAttribute equivalent in X.QuickUI
   
        d. collections are easier. you don't have to use <StackLayout.Children> (which won't work, as it's readonly)
+       
+       e. Setting an `Id` will generate a field of the same name and type accessible from code
  
      Add this file to your project as `EmbeddedResource`
  
@@ -59,3 +61,26 @@ Say we want to create a `CustomPage` inheriting from `ContentPage`
     Use `mono xamlg.exe CustomPage.xaml` to generate `CustomPage.xaml.g.cs`
  
 And you're all set
+
+Bindings
+--------
+Those syntaxes are supported:
+
+    <Label Text="{Binding MyPropertyPath}"/>
+    <Label Text="{Binding Path=MyPropertyPath}"/>
+
+This syntax is NOT supported (as the xaml parser require a parameterless ctor, and Binding doesn't have one.
+
+    <Label>
+      <Label.Text>
+        <Binding Path="MyPropertyPath">
+      </Label.Text>
+    </Label>
+
+Converters, Mode, ... are NOT YET handled
+
+TODO
+----
+ - CellTemplates
+ - Resources and `{StaticResource}` syntax
+ - Properties with type different than string (enum, int, ...)
