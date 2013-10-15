@@ -15,7 +15,7 @@ Say we want to create a `CustomPage` inheriting from `ContentPage`
           xmlns:x="http://dev/null"
 	      x:Class="X4QU.Sample.CustomPage">
           <ContentPage.Content>
-            <StackLayout Id="Stack">
+            <StackLayout Id="Stack" Orientation="Vertical">
               <Label Text="Hello" Id="Label0"/>
               <Label Text="Xaml" Id="Label1">
             </StackLayout>
@@ -30,7 +30,7 @@ Say we want to create a `CustomPage` inheriting from `ContentPage`
   
        c. you **have** to use <ContentPage.Content> to set the Content property of the page, as there's no ContentPropertyAttribute equivalent in X.QuickUI
   
-       d. collections are easier. you don't have to use <StackLayout.Children> (which won't work, as it's readonly)
+       d. collections are easy. you don't have to use <StackLayout.Children> (which won't work, as it's readonly)
        
        e. Setting an `Id` will generate a field of the same name and type accessible from code
  
@@ -83,7 +83,7 @@ TODO
 ----
  - CellTemplates
  - Resources and `{StaticResource}` syntax
- - Properties with type different than string (enum, int, ...)
+ - Properties with type different than string  int, ...)
 
 Features requests in Xamarin.QuickUI
 ------------------------------------

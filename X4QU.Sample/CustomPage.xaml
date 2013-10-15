@@ -3,7 +3,7 @@
 	xmlns:x="http://dev/null"
 	x:Class="X4QU.Sample.CustomPage">
   <ContentPage.Content>
-	<StackLayout Id="Stack">
+	<StackLayout Id="Stack" Orientation="Horizontal">
 		<Label Text="Hello" Id="Label0"/>
 		<Label Id="Label1">
 		  <Label.Text>

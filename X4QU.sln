@@ -55,6 +55,6 @@ Global
 		{919C4520-EA4E-466E-ADFC-1C7B536442D0}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = X4QU.xamlg\X4QU.xamlg.csproj
+		StartupItem = X4QU.Sample\X4QU.Sample.csproj
 	EndGlobalSection
 EndGlobal
