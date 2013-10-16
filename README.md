@@ -12,8 +12,8 @@ Say we want to create a `CustomPage` inheriting from `ContentPage`
  
         <ContentPage 
           xmlns="http://xamarin.com/quickui"
-          xmlns:x="http://dev/null"
-	      x:Class="X4QU.Sample.CustomPage">
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  x:Class="X4QU.Sample.CustomPage">
           <ContentPage.Content>
             <StackLayout Id="Stack" Orientation="Vertical">
               <Label Text="Hello" Id="Label0"/>
