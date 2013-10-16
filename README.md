@@ -79,9 +79,27 @@ This syntax is NOT supported (as the xaml parser require a parameterless ctor, a
 
 Converters, Mode, ... are NOT YET handled
 
+ListView, Cells and Templates
+-----------------------------
+
+    <ContentPage 
+        xmlns="http://xamarin.com/quickui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:X4QU="clr-namespace:X4QU.Extensions;assembly=X4QU"
+        x:Class="X4QU.Sample.CustomPage">
+      <ContentPage.Content>
+        <ListView ItemSource="{Binding Items}">
+          <ListView.Template>
+            <X4QU:TextCellTemplate TextCell.Text="{Binding Name}" TextCell.Detail="{Binding Title}" />
+          </ListView.Template>
+        </ListView>
+      </ContentPage.Content>
+    </ContentPage>
+
+Note: there's a new assembly to reference, declaring a TextCellTemplate class, which is only a `CellTemplate(typeof(TextCell))`
+
 TODO
 ----
- - CellTemplates
  - Resources and `{StaticResource}` syntax
  - Properties with type different than string  int, ...)
 
