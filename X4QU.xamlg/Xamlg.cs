@@ -200,7 +200,7 @@ namespace X4QU
 		{
 			switch (ns) {
 			case "http://xamarin.com/quickui":
-			case "http://dev/null":
+			case "http://schemas.microsoft.com/winfx/2006/xaml":
 				return false;
 			}
 			return true;

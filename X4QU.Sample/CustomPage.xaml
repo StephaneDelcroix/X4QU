@@ -1,9 +1,11 @@
 <ContentPage 
     xmlns="http://xamarin.com/quickui"
-	xmlns:x="http://dev/null"
-	x:Class="X4QU.Sample.CustomPage">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:X4QU="clr-namespace:X4QU.Extensions;assembly=X4QU"
+	x:Class="X4QU.Sample.CustomPage"
+	>
   <ContentPage.Content>
-	<StackLayout Id="Stack" Orientation="Horizontal">
+	<StackLayout Id="Stack" Orientation="Vertical">
 		<Label Text="Hello" Id="Label0"/>
 		<Label Id="Label1">
 		  <Label.Text>
@@ -12,6 +14,11 @@
 		</Label>
 		<Label Text="{Binding Path=LabelBinding}"/>
 		<Label Text="{Binding LabelBinding}"/>
+		<ListView ItemSource="{Binding Items}">
+			<ListView.Template>
+				<X4QU:TextCellTemplate TextCell.Text="{Binding Name}" TextCell.Detail="{Binding Title}" />
+			</ListView.Template>
+		</ListView>
 	</StackLayout>
   </ContentPage.Content>
 </ContentPage>

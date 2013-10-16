@@ -21,6 +21,11 @@ namespace X4QU.Sample
 			//Have you noticed that Binding to anonymous classes works without declaring any InternalsVisibleTo (unlike SL) ?
 			BindingContext = new {
 				LabelBinding = "Binding works",
+				Items = new [] {
+					new {Name = "Xander", Title = "Monkey"}, 
+					new {Name = "John", Title = "Boss"},
+					new {Name = "Fred", Title = "Pleb"}
+				},
 			};
 		}
 	}

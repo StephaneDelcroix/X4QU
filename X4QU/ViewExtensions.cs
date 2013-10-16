@@ -39,12 +39,6 @@ namespace X4QU
 {
 	public static class Extensions
 	{
-		static readonly Assembly quickUiAssembly = typeof(View).Assembly;
-		static readonly string quickUiNamespace = "Xamarin.QuickUI.";
-		static readonly string quickUiXmlns = "http://xamarin.com/quickui";
-		static readonly string xXmlns = "http://dev/null";
-
-
 		public static T FindById<T> (this BaseLayout view, string id) where T : View {
 			return (T)view.FindById (id);
 		}
@@ -90,8 +84,7 @@ namespace X4QU
 			Debug.WriteLine (string.Format ("HydrateElement {0}", reader.Name));
 			Debug.Assert (reader.NodeType == XmlNodeType.Element);
 
-			//only support quickui elements for now, without namespace
-			var elementType = quickUiAssembly.GetType (quickUiNamespace + reader.Name);
+			var elementType = GetElementType (reader.NamespaceURI, reader.Name);
 			Debug.Assert (@object.GetType () == elementType || @object.GetType ().IsSubclassOf (elementType));
 			var elementName = reader.Name;
 			var isEmpty = reader.IsEmptyElement;
@@ -122,7 +115,7 @@ namespace X4QU
 					else if (elementType.IsSubclassOfRawGeneric (typeof(Layout<>))) {
 						var layout = (Layout)@object;
 						Debug.Assert (layout != null);
-						var element = quickUiAssembly.GetType (quickUiNamespace + reader.Name).GetConstructor (new Type[]{ }).Invoke (new object[]{ });
+						var element = GetElementType (reader.NamespaceURI, reader.Name).Create ();
 						Debug.Assert (element != null);
 						element.HydrateElement (reader);
 						Debug.Assert (element.GetType ().IsSubclassOf (typeof(View)));
@@ -146,10 +139,11 @@ namespace X4QU
 				Debug.WriteLine ("Attribute {0} {1} {2}", reader.NamespaceURI, reader.Name, reader.Value);
 
 				//skip xmlns for now
-				if (reader.NamespaceURI == "http://www.w3.org/2000/xmlns/")
+				if (reader.NamespaceURI == "http://www.w3.org/2000/xmlns/") 
 					continue;
+
 				//skip x: attributes
-				if (reader.NamespaceURI == xXmlns)
+				if (reader.NamespaceURI == "http://schemas.microsoft.com/winfx/2006/xaml")
 					continue;
 
 				@object.SetPropertyValue (elementType, reader.Name, reader.Value);
@@ -194,6 +188,14 @@ namespace X4QU
 
 		static void SetBinding (this object @object, Type elementType, string propertyName, string bindingString)
 		{
+			var dotIdx = propertyName.IndexOf ('.');
+			if (dotIdx > 0) {
+				//Attached DP kind of problem
+				var typename = propertyName.Substring (0, dotIdx);
+				propertyName = propertyName.Substring (dotIdx + 1);
+
+				elementType = GetElementType ("", typename);
+			}
 			var bindableFieldInfo = 
 				elementType.GetField (propertyName + "Property", 
 					BindingFlags.Static | 
@@ -229,8 +231,39 @@ namespace X4QU
 			}
 
 			var binding = new Binding (path);
-			((BindableObject)@object).SetBinding (property, binding);
+			if (@object is BindableObject)
+				((BindableObject)@object).SetBinding (property, binding);
+			else { //workaround for Templates :(
+				var method = @object.GetType ().GetMethod ("SetBinding", new [] {typeof(BindableProperty), typeof(BindingBase)});
+				method.Invoke (@object, new object[]{property, binding});
+			}
 
+		}
+
+		static Type GetElementType (string namespaceURI, string elementName)
+		{
+			string ns;
+			Assembly asm;
+
+			if (!IsCustom (namespaceURI)) {
+				ns = "Xamarin.QuickUI";
+				asm = typeof(View).Assembly;
+			} else {
+				string typename;
+				string asmstring;
+
+				ParseXmlns (namespaceURI, out typename, out ns, out asmstring);
+				asm = Assembly.Load (asmstring);
+			}
+
+			if (elementName.Contains (":"))
+				elementName = elementName.Substring (elementName.LastIndexOf (':') + 1);
+			return asm.GetType (ns + "." + elementName);
+		}
+
+		static object Create (this Type type)
+		{
+			return type.GetConstructor (new Type[]{ }).Invoke (new object[]{ });
 		}
 
 		static object ReadElement (this object @object, Type elementType, XmlReader reader)
@@ -241,7 +274,7 @@ namespace X4QU
 			while (reader.Read ()) {
 				switch (reader.NodeType) {
 				case XmlNodeType.Element:
-					element = quickUiAssembly.GetType (quickUiNamespace + reader.Name).GetConstructor (new Type[]{ }).Invoke (new object[]{ });
+					element = GetElementType (reader.NamespaceURI, reader.Name).Create ();
 					Debug.Assert (element != null);
 					element.HydrateElement (reader);
 					if (reader.IsEmptyElement)
@@ -276,6 +309,39 @@ namespace X4QU
 			return null;
 		}
 
+		static bool IsCustom (string ns)
+		{
+			switch (ns) {
+			case "http://xamarin.com/quickui":
+			case "http://schemas.microsoft.com/winfx/2006/xaml":
+			case "":
+				return false;
+			}
+			return true;
+		}
+
+		static void ParseXmlns (string xmlns, out string typeName, out string ns, out string asm)
+		{
+			typeName = ns = asm = null;
+
+			foreach (var decl in xmlns.Split (';')) {
+				if (decl.StartsWith ("clr-namespace:", StringComparison.InvariantCulture)) {
+					ns = decl.Substring (14, decl.Length - 14);
+					continue;
+				}
+				if (decl.StartsWith ("assembly=", StringComparison.InvariantCulture)) {
+					asm = decl.Substring (9, decl.Length - 9);
+					continue;
+				}
+				int nsind = decl.LastIndexOf (".", StringComparison.InvariantCulture);
+				if (nsind > 0) {
+					ns = decl.Substring (0, nsind);
+					typeName = decl.Substring (nsind + 1, decl.Length - nsind - 1);
+				} else {
+					typeName = decl;
+				}
+			}
+		}
 		static bool IsSubclassOfRawGeneric(this Type toCheck, Type generic) {
 			while (toCheck != null && toCheck != typeof(object)) {
 				var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
