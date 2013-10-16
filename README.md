@@ -24,15 +24,15 @@ Say we want to create a `CustomPage` inheriting from `ContentPage`
  
     Some stuffs to notice:
 
-       a. the toplevel element is <ContentPage> which is our base class
+        a. the toplevel element is <ContentPage> which is our base class
       
-       b. `x:Class` is the full name of our class
+        b. `x:Class` is the full name of our class
   
-       c. you **have** to use <ContentPage.Content> to set the Content property of the page, as there's no ContentPropertyAttribute equivalent in X.QuickUI
-  
-       d. collections are easy. you don't have to use <StackLayout.Children> (which won't work, as it's readonly)
+        c. you **have** to use <ContentPage.Content> to set the Content property of the page, as there's no ContentPropertyAttribute equivalent in X.QuickUI
+   
+        d. collections are easy. you don't have to use <StackLayout.Children> (which won't work, as it's readonly)
        
-       e. Setting an `Id` will generate a field of the same name and type accessible from code
+        e. Setting an `Id` will generate a field of the same name and type accessible from code
  
      Add this file to your project as `EmbeddedResource`
  
@@ -77,7 +77,7 @@ This syntax is NOT supported (as the xaml parser require a parameterless ctor, a
       </Label.Text>
     </Label>
 
-Converters, Mode, ... are NOT YET handled
+`Converter`, `Mode`, ... are NOT YET handled
 
 ListView, Cells and Templates
 -----------------------------
@@ -101,7 +101,7 @@ Note: there's a new assembly to reference, declaring a TextCellTemplate class, w
 TODO
 ----
  - Resources and `{StaticResource}` syntax
- - Properties with type different than string  int, ...)
+ - Properties with type different than string and enums (double, int, ...)
 
 Features requests in Xamarin.QuickUI
 ------------------------------------
