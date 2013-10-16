@@ -1,9 +1,14 @@
 <ContentPage 
     xmlns="http://xamarin.com/quickui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:X4QU="clr-namespace:X4QU.Extensions;assembly=X4QU"
-	x:Class="X4QU.Sample.CustomPage"
-	>
+    xmlns:X4QU="clr-namespace:X4QU;assembly=X4QU"
+    xmlns:local="clr-namespace:X4QU.Sample;assembly=X4QUSample"
+	x:Class="X4QU.Sample.CustomPage">
+  <ContentPage.Resources>
+    <X4QU:ResourceDictionary>
+      <local:ReverseConverter x:Key="reverseConverter"/>
+    </X4QU:ResourceDictionary>
+  </ContentPage.Resources>
   <ContentPage.Content>
 	<StackLayout Id="Stack" Orientation="Vertical">
 		<Label Text="Hello" Id="Label0"/>
@@ -12,7 +17,7 @@
 		    Xaml
 		  </Label.Text>
 		</Label>
-		<Label Text="{Binding Path=LabelBinding}"/>
+		<Label Text="{Binding Path=LabelBinding,Converter={StaticResource reverseConverter}}"/>
 		<Label Text="{Binding LabelBinding}"/>
 		<ListView ItemSource="{Binding Items}">
 			<ListView.Template>

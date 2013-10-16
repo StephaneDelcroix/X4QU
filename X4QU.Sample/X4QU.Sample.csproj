@@ -107,6 +107,7 @@
     <Compile Include="App.cs" />
     <Compile Include="CustomPage.xaml.cs" />
     <Compile Include="CustomPage.xaml.g.cs" />
+    <Compile Include="ReverseConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,5 +1,5 @@
 //
-// ViewExtensions.cs
+// ResourceDictionry.cs
 //
 // Author:
 //       Stephane Delcroix <stephane@mi8.be>
@@ -23,55 +23,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
-using System.Reflection;
-using System.IO;
-using System.Xml;
-using System.Linq;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
-using Xamarin.QuickUI;
-using System.Collections;
 
 namespace X4QU
 {
-	public static class Extensions
+	public class ResourceDictionary : Dictionary<string, object>
 	{
-		public static T FindById<T> (this BaseLayout view, string id) where T : View {
-			return (T)view.FindById (id);
-		}
-
-		static View FindById (this BaseLayout view, string id)
-		{
-			IList<View> level0 = view.ToList ();
-			while (level0.Count > 0) {
-				var level1 = new List<View> ();
-				foreach (var child in level0) {
-					if (child.Id == id)
-						return child;
-
-					var layoutChild = child as BaseLayout;
-					if (layoutChild != null)
-						level1.AddRange (layoutChild);
-				}
-				level0 = level1;
-			}
-			return null;
-		}
-
-		public static void LoadFromXaml (this View view, Type callingType)
-		{
-			var loader = new XamlLoader ();
-			loader.Load (view, callingType, Assembly.GetCallingAssembly ());
-		}
-
-		internal static object Create (this Type type)
-		{
-			return type.GetConstructor (new Type[]{ }).Invoke (new object[]{ });
-		}
-
 	}
 }
+

@@ -1,5 +1,5 @@
 //
-// ViewExtensions.cs
+// ReverseConverter.cs
 //
 // Author:
 //       Stephane Delcroix <stephane@mi8.be>
@@ -23,55 +23,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
-using System.Reflection;
-using System.IO;
-using System.Xml;
 using System.Linq;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
 using Xamarin.QuickUI;
-using System.Collections;
 
-namespace X4QU
+namespace X4QU.Sample
 {
-	public static class Extensions
+	public class ReverseConverter : IValueConverter
 	{
-		public static T FindById<T> (this BaseLayout view, string id) where T : View {
-			return (T)view.FindById (id);
-		}
-
-		static View FindById (this BaseLayout view, string id)
+		public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			IList<View> level0 = view.ToList ();
-			while (level0.Count > 0) {
-				var level1 = new List<View> ();
-				foreach (var child in level0) {
-					if (child.Id == id)
-						return child;
-
-					var layoutChild = child as BaseLayout;
-					if (layoutChild != null)
-						level1.AddRange (layoutChild);
-				}
-				level0 = level1;
+			var s = value as string;
+			if (s != null) {
+				return new string (s.Reverse ().ToArray());
 			}
-			return null;
+			return value; 
 		}
 
-		public static void LoadFromXaml (this View view, Type callingType)
+		public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var loader = new XamlLoader ();
-			loader.Load (view, callingType, Assembly.GetCallingAssembly ());
+			var s = value as string;
+			if (s != null) {
+				return new string (s.Reverse ().ToArray());
+			}
+			return value; 
 		}
-
-		internal static object Create (this Type type)
-		{
-			return type.GetConstructor (new Type[]{ }).Invoke (new object[]{ });
-		}
-
 	}
 }
+
