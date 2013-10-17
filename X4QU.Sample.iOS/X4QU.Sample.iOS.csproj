@@ -111,18 +111,18 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <XamarinComponentReference Include="quickui">
-      <Version>1.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\X4QU\X4QU.csproj">
+    <ProjectReference Include="..\X4QU\X4QU.iOS.csproj">
       <Project>{542C1F66-43C3-4D44-A82E-9C4B656DE335}</Project>
-      <Name>X4QU</Name>
+      <Name>X4QU.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CustomPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="quickui">
+      <Version>1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>
