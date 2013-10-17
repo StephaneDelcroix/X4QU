@@ -23,6 +23,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 using Xamarin.QuickUI;
 using System.Reflection;
@@ -107,7 +108,7 @@ namespace X4QU
 						Debug.Assert (element != null);
 						HydrateElement (element, reader);
 						if (@object is ResourceDictionary) {
-							((ResourceDictionary)@object).Add (GetKey (element), @object);
+							((ResourceDictionary)@object).Add (GetKey (element), element);
 						} else {
 							var addMethod = @object.GetType ().GetMethod ("Add");
 							addMethod.Invoke (@object, new object[]{ element });
@@ -191,6 +192,9 @@ namespace X4QU
 
 		void SetBinding (object @object, Type elementType, string propertyName, string bindingString)
 		{
+			Debug.Assert (bindingString.StartsWith ("{", StringComparison.InvariantCulture)
+			&& bindingString.EndsWith ("}", StringComparison.InvariantCulture));
+
 			var dotIdx = propertyName.IndexOf ('.');
 			if (dotIdx > 0) {
 				//Attached DP kind of problem
@@ -199,47 +203,44 @@ namespace X4QU
 
 				elementType = GetElementType ("", typename);
 			}
+
 			var bindableFieldInfo = 
 				elementType.GetField (propertyName + "Property", 
 					BindingFlags.Static | 
 					BindingFlags.Public | 
 					BindingFlags.FlattenHierarchy);
-			if (bindableFieldInfo == null || !elementType.IsSubclassOf (typeof(BindableObject))) {
-				Debug.Fail ("Invalid Binding");
-				return;
-			}
+
+			Debug.Assert (bindableFieldInfo != null && elementType.IsSubclassOf (typeof(BindableObject)));
+
 			var property = bindableFieldInfo.GetValue (null) as BindableProperty;
 
-			if (!bindingString.StartsWith ("{", StringComparison.InvariantCulture) 
-				&& !bindingString.EndsWith ("}", StringComparison.InvariantCulture)) {
-				Debug.Fail ("Invalid Binding");
-				return;			
-			}
+			var binding = ParseBindingString (bindingString);
 
-			bindingString = bindingString.Substring (1, bindingString.Length - 2);
-			//get the path
-			string path = null;
-			if (string.IsNullOrEmpty(path)) {
-				var regex = new Regex (@"Binding +Path *= *(\w+\b)");
-				var match = regex.Match (bindingString);
-				if (match != null) {
-					path = match.Groups [1].Value;
-				}
-			}
-			if (string.IsNullOrEmpty(path)) { 
-				var regex = new Regex (@"Binding +(\w+\b)");
-				var match = regex.Match (bindingString);
-				if (match != null)
-					path = match.Groups [1].Value;
-			}
-
-			var binding = new Binding (path);
 			if (@object is BindableObject)
 				((BindableObject)@object).SetBinding (property, binding);
 			else { //workaround for Templates :(
 				var method = @object.GetType ().GetMethod ("SetBinding", new [] {typeof(BindableProperty), typeof(BindingBase)});
 				method.Invoke (@object, new object[]{property, binding});
 			}
+		}
+
+		Binding ParseBindingString (string bindingString)
+		{
+			var regex = new Regex (@"{ *Binding +(?:Path *= *(?<path>\w+\b)|(?<path>\w+\b)) *(?:(?:, *Converter *= *{ *StaticResource +(?<converterResource>\w+\b) *})|(?:, *Mode *= *(?<mode>\w+\b) *))*");
+			var match = regex.Match (bindingString);
+			Debug.Assert (match != null);
+			var path = match.Groups ["path"].Value;
+			Debug.Assert (!string.IsNullOrEmpty (path));
+			var resourceconverter = match.Groups ["converterResource"].Value;
+			var mode = match.Groups ["mode"].Value;
+
+			//WTF, there's no Binding ctor taking 3 args !
+			var binding = new Binding (path);
+			if (!string.IsNullOrEmpty (mode))
+				binding = new Binding (path, mode: (BindingMode)Enum.Parse (typeof(BindingMode), mode));
+			else if (!string.IsNullOrEmpty (resourceconverter) && resources != null && resources [resourceconverter] != null)
+				binding = new Binding(path, converter: (IValueConverter)resources [resourceconverter]);
+			return binding;
 		}
 
 		object ReadElement (object @object, Type elementType, XmlReader reader)
