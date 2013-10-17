@@ -1,5 +1,5 @@
 //
-// ViewExtensions.cs
+// InternalExtensions.cs
 //
 // Author:
 //       Stephane Delcroix <stephane@mi8.be>
@@ -26,41 +26,41 @@
 
 using System;
 using System.Reflection;
+using System.IO;
+using System.Xml;
 using System.Linq;
+using System.Diagnostics;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using Xamarin.QuickUI;
+using System.Collections;
 
 namespace X4QU
 {
-	public static class Extensions
+
+	static class InternalExtensions 
 	{
-		public static T FindById<T> (this BaseLayout view, string id) where T : View {
-			return (T)view.FindById (id);
+		internal static object Create (this Type type)
+		{
+			return type.GetConstructor (new Type[]{ }).Invoke (new object[]{ });
 		}
 
-		static View FindById (this BaseLayout view, string id)
+		internal static object ConvertTo (this object @value, Type toType)
 		{
-			IList<View> level0 = view.ToList ();
-			while (level0.Count > 0) {
-				var level1 = new List<View> ();
-				foreach (var child in level0) {
-					if (child.Id == id)
-						return child;
+			if (!(value is string))
+				return @value;
 
-					var layoutChild = child as BaseLayout;
-					if (layoutChild != null)
-						level1.AddRange (layoutChild);
-				}
-				level0 = level1;
-			}
-			return null;
-		}
-
-		public static void LoadFromXaml (this View view, Type callingType)
-		{
-			var loader = new XamlLoader ();
-			loader.Load (view, callingType, Assembly.GetCallingAssembly ());
+			//TypeConverters, where are you ?
+			if (toType.IsEnum)
+				return Enum.Parse (toType, (string)@value);
+			if (toType == typeof(Int32))
+				return Int32.Parse ((string)@value);
+			if (toType == typeof(float))
+				return Single.Parse ((string)@value);
+			if (toType == typeof(double))
+				return Double.Parse ((string)@value);
+			return @value;
 		}
 	}
 }

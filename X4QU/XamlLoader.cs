@@ -172,8 +172,7 @@ namespace X4QU
 
 			if (elementType.IsSubclassOf (typeof(BindableObject)) && bindableFieldInfo != null) {
 				var property = bindableFieldInfo.GetValue (null) as BindableProperty;
-				//TypeConverters, where are you ?
-				((BindableObject)@object).SetValue (property, @value);
+				((BindableObject)@object).SetValue (property, @value.ConvertTo(property.ReturnType));
 				return;
 			}
 
@@ -181,10 +180,8 @@ namespace X4QU
 			var propertyInfo = elementType.GetProperty (propertyName);
 			if (propertyInfo != null) {
 				var setter = propertyInfo.SetMethod;
-				//TypeConverters, where are you ?
-				if (propertyInfo.PropertyType.IsEnum && @value is string)
-					@value = Enum.Parse (propertyInfo.PropertyType, @value.ToString ());
-				setter.Invoke (@object, new [] { @value });
+
+				setter.Invoke (@object, new [] { @value.ConvertTo (propertyInfo.PropertyType) });
 				return;
 			}
 			throw new Exception (String.Format ("Xaml Parse issue. No Property of name {0} found", propertyName));

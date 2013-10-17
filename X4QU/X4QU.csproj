@@ -58,5 +58,6 @@
     <Compile Include="TextCellTemplate.cs" />
     <Compile Include="ResourceDictionary.cs" />
     <Compile Include="XamlLoader.cs" />
+    <Compile Include="InternalExtensions.cs" />
   </ItemGroup>
 </Project>

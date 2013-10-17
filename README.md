@@ -124,7 +124,7 @@ Some remarks:
 
 TODO
 ----
- - Properties with type different than string and enums (double, int, ...)
+ -
 
 Features requests in Xamarin.QuickUI
 ------------------------------------
