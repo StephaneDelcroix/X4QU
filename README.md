@@ -94,9 +94,36 @@ ListView, Cells and Templates
 
 Note: there's a new assembly to reference, declaring a TextCellTemplate class, which is only a `CellTemplate(typeof(TextCell))`
 
+Resources and StaticResources bindings
+--------------------------------------
+Let's start by the example
+
+    <ContentPage 
+      xmlns="http://xamarin.com/quickui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:X4QU="clr-namespace:X4QU;assembly=X4QU"
+      xmlns:local="clr-namespace:X4QU.Sample;assembly=X4QUSample"
+      x:Class="X4QU.Sample.CustomPage">
+      <ContentPage.Resources>
+        <X4QU:ResourceDictionary>
+          <local:ReverseConverter x:Key="reverseConverter"/>
+        </X4QU:ResourceDictionary>
+      </ContentPage.Resources>
+      <ContentPage.Content>
+        <Label Text="{Binding Path=LabelBinding,Converter={StaticResource reverseConverter}}"/>
+      </ContentPage.Content>  
+    </ContentPage>
+
+Some remarks:
+
+ 1. `ResourceDictionary` si define in x4QU
+ 2. we set the `Resources` property of `ContentPage`. This is a hack, there's no such property
+ 3. only define a single resourcedictionary per xaml, at the toplevel element for now. Or behavior is not guaranteed.
+ 4. you can't set both `Mode` and `Converter` in a Binding. If you do both, it'll take the `Mode` and ignore the `Converter`
+ 5. Case is important, in Bindings strings like everywhere else
+
 TODO
 ----
- - Resources and `{StaticResource}` syntax
  - Properties with type different than string and enums (double, int, ...)
 
 Features requests in Xamarin.QuickUI
