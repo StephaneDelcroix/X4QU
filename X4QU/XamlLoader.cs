@@ -38,8 +38,10 @@ namespace X4QU
 {
 	class XamlLoader
 	{
+		object root;
 		public void Load (View view, Type callingType, Assembly assembly)
 		{
+			root = view;
 			var xaml = GetXamlForType (callingType, assembly);
 
 			using (var reader = XmlReader.Create (new StringReader (xaml))) {
@@ -161,6 +163,17 @@ namespace X4QU
 			if (valueString != null && valueString.Trim ().StartsWith ("{", StringComparison.InvariantCulture)) {
 				SetBinding (@object, elementType, propertyName, valueString);
 				return;
+			}
+
+			//If the target is an event, connect
+			var eventInfo = elementType.GetEvent (propertyName);
+			if (eventInfo != null && @value is string) {
+				var methodInfo = root.GetType ().GetMethod ((string)@value);
+				eventInfo.AddEventHandler (@object, Delegate.CreateDelegate (
+					eventInfo.EventHandlerType,
+					root,
+					methodInfo));
+					return;
 			}
 
 			//try to see if it's a BindableProperty

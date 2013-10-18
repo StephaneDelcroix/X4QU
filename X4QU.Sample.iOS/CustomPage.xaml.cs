@@ -28,5 +28,10 @@ namespace X4QU.Sample
 				},
 			};
 		}
+
+		public void onItemTapped (object sender, EventArg<object>  e)
+		{
+			Console.WriteLine ("Connecting to events in xaml works");
+		}
 	}
 }

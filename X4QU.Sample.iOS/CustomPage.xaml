@@ -19,7 +19,8 @@
 		</Label>
 		<Label Text="{Binding Path=LabelBinding,Converter={StaticResource reverseConverter}}"/>
 		<Label Text="{Binding LabelBinding}"/>
-		<ListView ItemSource="{Binding Items}">
+		<Button Text="Hit Me" Id="Button"/>
+		<ListView ItemSource="{Binding Items}" ItemTapped="onItemTapped">
 			<ListView.Template>
 				<X4QU:TextCellTemplate TextCell.Text="{Binding Name}" TextCell.Detail="{Binding Title}" />
 			</ListView.Template>
