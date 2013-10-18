@@ -130,6 +130,10 @@ namespace X4QU
 			initcomp.Name = "InitializeComponent";
 			declType.Members.Add (initcomp);
 
+			initcomp.Statements.Add (new CodeMethodInvokeExpression (
+				new CodeThisReferenceExpression (), 
+				"LoadFromXaml", new CodeExpression [] { new CodeTypeOfExpression (declType.Name)}));
+
 			foreach (var entry  in namesAndTypes) {
 				string name = (string) entry.Key;
 				var type = entry.Value;

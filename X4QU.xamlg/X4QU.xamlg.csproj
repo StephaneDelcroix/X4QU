@@ -19,7 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
-    <Commandlineparameters>~/Projects/X4QU/X4QU.Sample/CustomPage.xaml</Commandlineparameters>
+    <Commandlineparameters>~/Projects/X4QU/X4QU.Sample.iOS/CustomPage.xaml</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
