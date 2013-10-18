@@ -114,6 +114,26 @@ Let's start by the example
       </ContentPage.Content>  
     </ContentPage>
 
+Events
+------
+
+Just like it's possible in SL or WPF, you can connect a method to an event directly in XAML
+
+    ...
+    <ListView ItemTapped="onItemTapped" />
+    ...
+
+Then you have to make sure you have a **public** **instance** method of the right signature in your partial class:
+
+    public partial class CustomPage {
+        public void onItemTapped (object sender, EventArg<object> arg)
+	{
+	    //Do something here
+	}
+    }
+
+__Note: whenever possible, use `Command`s and assign a binding, it's cleaner__
+
 Some remarks:
 
  1. `ResourceDictionary` si define in x4QU
